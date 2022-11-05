@@ -1,6 +1,7 @@
 package com.skilldistillery.helo.app;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import com.skilldistillery.helo.entities.AirField;
@@ -20,44 +21,93 @@ public class HelicopterApp {
 	}
 
 	public void launch() {
-		airField = new AirField();
-		int choice = 0;
-		while (choice != 9) {
-			displayUserMenu();
-			choice = scanner.nextInt();
-			scanner.nextLine();
-			if (choice == 1) {
-				airField.printAllHelicopters();
-			} else if (choice == 2) {
-				makeEmAllFly(airField);
-			} else if (choice == 3) {
-				Helicopter fastest = airField.getFastest();
-				System.out.println("The " + fastest.getModel() + " is the fastest with a top speed of "
-						+ fastest.getSpeed() + ".");
-				System.out.println("Here is the rest of its info if you're interested.. /n" + fastest);
-			} else if (choice == 4) {
-				Helicopter rangeyest = airField.getRangeyest();
-				System.out.println(
-						"The " + rangeyest.getModel() + " has the longest range of " + rangeyest.getRange() + ".");
-				System.out.println("Here is the rest of its info if you're interested.. /n" + rangeyest);
 
-			} else if (choice == 5) {
-				loadEmUp(airField);
-			} else if (choice == 6) {
-				dogFight(airField);
-			} else if (choice == 7) {
-				Helicopter helo = createHelo();
-				airField.addHelo(helo);
-			} else if (choice == 8) {
-				deleteHelo();
-			} else if (choice == 9) {
-				System.out.println("GoodBye");
-				break;
-			} else if (choice == 0) {
+			
+			airField = new AirField();
+			int choice = 0;
+			while (choice != 9) {
 				displayUserMenu();
-			} else {
-				System.out.println("unrecognized response please try again:");
+				try {
+				choice = scanner.nextInt();
+				scanner.nextLine();
+				} catch (InputMismatchException e) {
+					System.out.println("unrecognized response please try again:");
+					HelicopterApp helo = new HelicopterApp();
+					helo.launch();
+				}
+				if (choice == 1) {
+					airField.printAllHelicopters();
+				} else if (choice == 2) {
+					makeEmAllFly(airField);
+				} else if (choice == 3) {
+					Helicopter fastest = airField.getFastest();
+					System.out.println("The " + fastest.getModel() + " is the fastest with a top speed of "
+							+ fastest.getSpeed() + ".");
+					System.out.println("Here is the rest of its info if you're interested.. /n" + fastest);
+				} else if (choice == 4) {
+					Helicopter rangeyest = airField.getRangeyest();
+					System.out.println(
+							"The " + rangeyest.getModel() + " has the longest range of " + rangeyest.getRange() + ".");
+					System.out.println("Here is the rest of its info if you're interested.. /n" + rangeyest);
+					
+				} else if (choice == 5) {
+					loadEmUp(airField);
+				} else if (choice == 6) {
+					dogFight(airField);
+				} else if (choice == 7) {
+					Helicopter helo = createHelo();
+					airField.addHelo(helo);
+				} else if (choice == 8) {
+					deleteHelo();
+				} else if (choice == 9) {
+					System.out.println("GoodBye");
+					break;
+				} else if (choice == 0) {
+					displayUserMenu();
+				} else if (choice == 10) {
+					flyOne();
+				} else if (choice == 11) {
+					hirePilot();
+				} else {
+					System.out.println("unrecognized response please try again:");
+				}
 			}
+	}
+
+	private void hirePilot() {
+		System.out.println("Enter Name of pilot you want to hire: ");
+		String name = scanner.nextLine();
+		System.out.println("Reviewing his application...");
+		try {
+			Thread.sleep(3000);
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		if (Helicopter.pilots.add(name)) {
+			System.out.println("Looks like a great candidate and he can start now!");
+		} else {
+			System.out.println("Sorry we found some issues on his resume, we will pass on this one.");
+		}
+		
+		
+	}
+
+	private void flyOne() {
+		ArrayList<Helicopter> helos = airField.getFleet();
+		airField.printAllHelicopters();
+		System.out.println("Please enter model of Helicopter you'd like to fly");
+		String heloName = scanner.nextLine();
+		boolean flown = false;
+		for (Helicopter helo : helos) {
+			if (helo.getModel().equalsIgnoreCase(heloName)) {
+				helo.fly();
+				flown = true;
+				break;
+			}
+		}
+		if (!flown) {
+			System.out.println("Sorry couldn't find that specific Helicopter in the AirField.");
+			System.out.println("maybe you could add it..");
 		}
 	}
 
@@ -135,7 +185,8 @@ public class HelicopterApp {
 		System.out.println("Enter number corresponding to menu choice:");
 		System.out.println("1. List fleet\n" + "2. Fly all helicopters\n" + "3. View fastest helicopter\n"
 				+ "4. View helicopter with longest range\n" + "5. Load all Cargo helicopters\n" + "6. Dogfight!\n"
-				+ "7. Add a helicopter to Fleet\n" + "8. Remove a helicopter from Fleet\n" + "9. Quit");
+				+ "7. Add a helicopter to Fleet\n" + "8. Remove a helicopter from Fleet\n" + "9. Quit"
+				+ "\n0. see menu again" + "\n10. Pick a Helicopter to fly" + "\n11. Hire a new pilot");
 	}
 
 }
