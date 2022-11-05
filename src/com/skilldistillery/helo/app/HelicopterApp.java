@@ -46,12 +46,12 @@ public class HelicopterApp {
 					Helicopter fastest = airField.getFastest();
 					System.out.println("The " + fastest.getModel() + " is the fastest with a top speed of "
 							+ fastest.getSpeed() + ".");
-					System.out.println("Here is the rest of its info if you're interested.. /n" + fastest);
+					System.out.println("Here is the rest of its info if you're interested.. \n" + fastest);
 				} else if (choice == 4) {
 					Helicopter rangeyest = airField.getRangeyest();
 					System.out.println(
 							"The " + rangeyest.getModel() + " has the longest range of " + rangeyest.getRange() + ".");
-					System.out.println("Here is the rest of its info if you're interested.. /n" + rangeyest);
+					System.out.println("Here is the rest of its info if you're interested.. \n" + rangeyest);
 					
 				} else if (choice == 5) {
 					loadEmUp(airField);
@@ -141,8 +141,8 @@ public class HelicopterApp {
 	}
 
 	private void deleteHelo() {
-
-		System.out.println("Please enter the name of the Helicopter you wish to delete");
+		airField.printAllHelicopters();
+		System.out.println("Please enter the model of the Helicopter you wish to delete");
 		String heloToDelete = scanner.next();
 		System.out.println(heloToDelete);
 		scanner.nextLine();
@@ -155,7 +155,7 @@ public class HelicopterApp {
 
 	private Helicopter createHelo() {
 		Helicopter helo = null;
-		System.out.println("Please enter A for and attack helicoptor or C for cargo helicopter");
+		System.out.println("Please enter A for an attack helicoptor or C for cargo helicopter");
 		String type = scanner.next();
 		scanner.nextLine();
 		while (!(type.equalsIgnoreCase("A")) && !(type.equalsIgnoreCase("C"))) {
