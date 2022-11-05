@@ -32,11 +32,10 @@ public class HelicopterApp {
 				displayUserMenu();
 				try {
 				choice = scanner.nextInt();
-				scanner.nextLine();
 				} catch (InputMismatchException e) {
 					System.out.println("unrecognized response please try again:");
-					HelicopterApp helo = new HelicopterApp();
-					helo.launch();
+					choice = 0;
+					scanner.nextLine();
 				}
 				if (choice == 1) {
 					airField.printAllHelicopters();
