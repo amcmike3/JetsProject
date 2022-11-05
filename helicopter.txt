@@ -1,0 +1,5 @@
+Attack, Huey, 118, 348, 3000000
+Attack, Cobra, 141, 357, 111000000
+Attack, Apache, 227, 296, 56000000
+Cargo, Super Stallion, 172, 540, 122000000
+Cargo, Chinook, 188, 200, 32000000
