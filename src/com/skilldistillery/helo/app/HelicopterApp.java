@@ -1,5 +1,8 @@
 package com.skilldistillery.helo.app;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -68,16 +71,42 @@ public class HelicopterApp {
 					flyOne();
 				} else if (choice == 11) {
 					hirePilot();
+				} else if (choice == 12) {
+					save();
 				} else {
 					System.out.println("unrecognized response please try again:");
 				}
 			}
 	}
 
+	private void save() {
+		try {
+		    FileWriter fw = new FileWriter("helicopter.txt");
+		    PrintWriter pw = new PrintWriter(fw);
+		    for (Helicopter helo : airField.getFleet()) {
+		    	if (helo instanceof Fighter) {
+		    		pw.print("Attack, ");
+		    	} else if (helo instanceof Cargo) {
+		    		pw.print("Cargo, ");
+		    	}
+		    	
+		    	
+		      pw.println(helo.getModel() + ", " + helo.getSpeed() + ", " + helo.getRange() + ", " + helo.getPrice());
+		    }
+		    System.out.println("Succussfully Saved");
+		    pw.close();
+		  }
+		  catch (IOException e) {
+		    e.printStackTrace();
+		  }
+
+		
+	}
+
 	private void hirePilot() {
 		System.out.println("Enter Name of pilot you want to hire: ");
 		String name = scanner.nextLine();
-		System.out.println("Reviewing his application...");
+		System.out.println("One moment while we Review his application...");
 		try {
 			Thread.sleep(3000);
 		} catch (Exception e) {
@@ -186,7 +215,8 @@ public class HelicopterApp {
 		System.out.println("1. List fleet\n" + "2. Fly all helicopters\n" + "3. View fastest helicopter\n"
 				+ "4. View helicopter with longest range\n" + "5. Load all Cargo helicopters\n" + "6. Dogfight!\n"
 				+ "7. Add a helicopter to Fleet\n" + "8. Remove a helicopter from Fleet\n" + "9. Quit"
-				+ "\n0. see menu again" + "\n10. Pick a Helicopter to fly" + "\n11. Hire a new pilot");
+				+ "\n0. see menu again" + "\n10. Pick a Helicopter to fly" + "\n11. Hire a new pilot"
+				+ "\n12. save existing helicopters");
 	}
 
 }
